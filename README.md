@@ -17,8 +17,7 @@
 ## 📦 Tech Stack
 
 - Frontend: Next.js
-- Backend: FastAPI
-- Database: SQLite / PostgreSQL (configurable)
+- Database: Firebase
 
 ---
 

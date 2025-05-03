@@ -5,18 +5,18 @@ import Notes from '../components/notes/notes'
 
 const Note = async ({searchParams} : {
     searchParams: {
-        note_id: number
+        note_id: string
     }
 }) => {
     const params = await searchParams;
     const noteId = params.note_id;
     return (
         <div>
-            <Topbar id={noteId}/>
+            <Topbar/>
             <div className="flex">
                 <Sidebar />
                 <div className="flex-4/5 h-auto">
-                    <Notes id={noteId} />
+                    <Notes idNote={noteId} />
                 </div>
             </div>
         </div>
