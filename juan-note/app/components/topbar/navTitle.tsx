@@ -29,7 +29,7 @@ const NavTitle = () => {
         minLength={3}
         maxLength={20}
       />     
-        <button className={inputValue != title ? "btn visible" : "btn invisible"} onClick={() => changeTitle()}>Save</button>    
+        <button className={inputValue == title ? "btn invisible" : "btn visible"} onClick={() => changeTitle()}>Save</button>    
     </div>
   )
 }
