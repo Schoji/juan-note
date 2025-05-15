@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-no-check": "NEXT_IGNORE_BUILD_ERRORS=true next build"
+    
   },
   "dependencies": {
     "firebase": "^11.6.1",

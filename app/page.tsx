@@ -1,19 +1,20 @@
-import Topbar from "./components/topbar/topbar";
-import Sidebar from "./components/sidebar/sidebar";
-import Notes from "./components/notes/notes";
+import Topbar from "./main/topbar/topbar";
+import Sidebar from "./main/sidebar/sidebar";
+import Notes from "./main/content/notes";
 import React from "react";
+import { AuthGuard } from "./core/auth/AuthGuard";
+import { AlreadyLogged } from "./login/components/alreadyLogged";
+import LoadingPage from "./loading/page";
+
 
 export default function Main() {
 
   return (
-    <div>
-        <Topbar/>
-        <div className="flex">       
-          <Sidebar/>
-          <div className="flex-4/5 h-auto">
-            <Notes />
-          </div>
-        </div>
+    <div className='h-screen flex justify-center items-center'>
+      <AuthGuard />
+      <AlreadyLogged />
+      <LoadingPage/>
+      
     </div>
   );
 }

@@ -1,21 +1,22 @@
 import React from 'react'
-import NavTitle from './navTitle'
+import NavTitle from './components/navTitle'
+import LogoutButton from './components/logoutButton'
+import UserSection from './components/user'
 
 const Topbar = () => {
-
     return (
         <div className='navbar border-b-1 border-neutral-800'>
             <div className='navbar-start'>
-                {/* <p>Navbar start</p> */}
+                <UserSection/>
             </div>
             <div className='navbar-center'>
                 <NavTitle/>
             </div>
             <div className='navbar-end'>
-                {/* <p>Navbar end</p> */}
+                <LogoutButton/>
             </div>
         </div>
     )
 }
 
-export default Topbar
+export default Topbar;

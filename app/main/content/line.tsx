@@ -3,9 +3,9 @@ import { database } from '@/app/firebaseConfig';
 import { onValue, ref, set } from 'firebase/database';
 import React, { useEffect, useRef, useState } from 'react'
 
-const Line = ({ id, content, noteId }: { id: string, content: string, noteId: string }) => {
+const Line = ({ id, noteId }: { id: string, noteId: string }) => {
 
-    const [text, setText] = useState<string>(content);
+    const [text, setText] = useState<string>();
     const lineRef = ref(database, `notes/${noteId}/lines/${id}`);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     
@@ -26,6 +26,7 @@ const Line = ({ id, content, noteId }: { id: string, content: string, noteId: st
 
     useEffect(() => {
         latestText.current = text;
+        updateHeight();
 
     }, [text]) 
 
@@ -95,11 +96,10 @@ const Line = ({ id, content, noteId }: { id: string, content: string, noteId: st
         };
     }, [])
 
-
     return (
         <textarea
             ref={textAreaRef}
-            className='w-full outline-none p-4 text-2xl overflow-hidden resize-none'
+            className='w-full outline-none p-2 text-xl overflow-hidden resize-none'
             value={text}
             onChange={(e) => changeText(e)}
         />

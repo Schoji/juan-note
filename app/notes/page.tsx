@@ -1,22 +1,31 @@
-import React from 'react'
-import Topbar from '../components/topbar/topbar'
-import Sidebar from '../components/sidebar/sidebar'
-import Notes from '../components/notes/notes'
+import React, { Suspense } from 'react'
+import Topbar from '../main/topbar/topbar'
+import Sidebar from '../main/sidebar/sidebar'
+import Notes from '../main/content/notes'
+import { AuthGuard } from '../core/auth/AuthGuard'
+import LoadingPage from '../loading/page'
 
-const Note = async ({searchParams} : {
-    searchParams: {
+const Note = async ({ searchParams }: {
+    searchParams: Promise<{
         note_id: string
-    }
+    }>
 }) => {
-    const params = await searchParams;
-    const noteId = params.note_id;
+    const { note_id } = await searchParams;
     return (
         <div>
-            <Topbar/>
+
+            <Topbar />
             <div className="flex">
                 <Sidebar />
                 <div className="flex-4/5 h-auto">
-                    <Notes idNote={noteId} />
+                    <Suspense fallback={LoadingPage()}>
+                        <table className='table table-auto scroll-auto' key={"table"}>
+                            <tbody>
+                                <Notes idNote={note_id} />
+                            </tbody>
+                        </table>
+                        <AuthGuard />
+                    </Suspense>
                 </div>
             </div>
         </div>

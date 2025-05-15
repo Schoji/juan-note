@@ -1,10 +1,10 @@
 import React from 'react'
-import NotesTitles from './notesTitles'
+import NotesTitles from './components/notesTitles'
 
 const Sidebar = () => {
   return (
     <div className='flex-1/5 max-w-48 border-r-1 border-neutral-800 min-h-lvh'>
-      <h1 className='p-2'>Pages</h1>
+      <h1 className='p-2'>Notes</h1>
       <div className='p-2'>
         <label className='input'>
           <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
