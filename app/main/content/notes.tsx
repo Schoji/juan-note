@@ -51,10 +51,16 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
         const unsubscribe = onValue(noteRef, (snapshot) => {
             const note: Note = snapshot.val();
             if (note != null) {
+                console.log(note);
                 setNoteId(idNote);
                 setNoteTitle(note.title);
-                setLineIds(Object.keys(note.lines));
-
+                if (note.lines != null) {
+                    setLineIds(Object.keys(note.lines));
+                }
+                else {
+                    setLineIds([]);
+                }
+                
             }
         });
         return () => unsubscribe();
@@ -88,8 +94,9 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
                             className='btn'>Delete</button>
                     </td>
                 </tr>
-            ) : <tr><td className='h-screen flex justify-center items-center'><span className="loading loading-dots loading-xl"></span></td></tr>}
-            {lineIds && lineIds.length > 0 ?
+            ) : lineIds && lineIds.length == 0 ? 
+            null :
+             <tr><td className='h-screen flex justify-center items-center'><span className="loading loading-dots loading-xl"></span></td></tr>}
             <tr className='p-0'>
                 <td colSpan={3}>
                     <button
@@ -97,7 +104,6 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
                         className='w-full h-full outline-none text-3xl text-left flex-grow btn btn-ghost btn-square rounded-none font-normal'>+</button>
                 </td>
             </tr>
-            : null} 
         </>
     );
 }

@@ -13,18 +13,10 @@ const LoginPage = (destination?: string) => {
                 <fieldset className='fieldset'>
                     <legend className='fieldset-legend text-left'>Email address</legend>
                     <label className='input input-lg w-full'>
-                        <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <g
-                                strokeLinejoin="round"
-                                strokeLinecap="round"
-                                strokeWidth="2.5"
-                                fill="none"
-                                stroke="currentColor"
-                            >
-                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </g>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                         </svg>
+
                         <input placeholder='name@example.com' />
                     </label>
                 </fieldset>
@@ -50,15 +42,15 @@ const LoginPage = (destination?: string) => {
                 </fieldset>
                 <button className='btn btn-primary'>Sign with Email</button>
                 <div className="divider">or continue with</div>
-                <GoogleButton/>
+                <GoogleButton />
                 <button className="btn bg-black text-white border-black">
                     <svg aria-label="Apple logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1195 1195"><path fill="white" d="M1006.933 812.8c-32 153.6-115.2 211.2-147.2 249.6-32 25.6-121.6 25.6-153.6 6.4-38.4-25.6-134.4-25.6-166.4 0-44.8 32-115.2 19.2-128 12.8-256-179.2-352-716.8 12.8-774.4 64-12.8 134.4 32 134.4 32 51.2 25.6 70.4 12.8 115.2-6.4 96-44.8 243.2-44.8 313.6 76.8-147.2 96-153.6 294.4 19.2 403.2zM802.133 64c12.8 70.4-64 224-204.8 230.4-12.8-38.4 32-217.6 204.8-230.4z"></path></svg>
                     Login with Apple
                 </button>
                 <p className='text-base text-gray-400'>Don't have an account? <Link className='link' href={""}>Sign up</Link></p>
             </div>
-            <AuthGuard/>
-            <AlreadyLogged/>
+            <AuthGuard />
+            <AlreadyLogged />
         </div>
     )
 }

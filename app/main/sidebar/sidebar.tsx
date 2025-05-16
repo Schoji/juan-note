@@ -3,7 +3,7 @@ import NotesTitles from './components/notesTitles'
 
 const Sidebar = () => {
   return (
-    <div className='flex-1/5 max-w-48 border-r-1 border-neutral-800 min-h-lvh'>
+    <div className='flex-auto border-r-1 border-neutral-800 min-h-lvh'>
       <h1 className='p-2'>Notes</h1>
       <div className='p-2'>
         <label className='input'>
