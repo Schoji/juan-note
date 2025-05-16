@@ -5,6 +5,7 @@ import { database } from '@/app/firebaseConfig';
 import { ref, onValue, push, remove } from "firebase/database";
 import { useNoteStore } from '@/app/core/global/useNoteStore';
 import { useRouter } from 'next/navigation';
+import NavTitle from '../topbar/components/navTitle';
 
 interface Line {
     id: string
@@ -26,7 +27,7 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
     const { title, setNoteTitle } = useNoteStore();
 
     const [lineIds, setLineIds] = React.useState<Array<string>>([]);
-    
+
 
     useEffect(() => {
         const noteRef = ref(database, `notes/${idNote}`);
@@ -60,7 +61,7 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
                 else {
                     setLineIds([]);
                 }
-                
+
             }
         });
         return () => unsubscribe();
@@ -79,10 +80,10 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
 
     return (
         <>
-
+            <tr><td colSpan={3} className='text-2xl font-bold'><NavTitle /></td></tr>
             {lineIds && lineIds.length > 0 ? lineIds.map((id, index) =>
                 <tr key={id} className='p-0'>
-                    <td className='text-center w-2 caret-amber-600'>
+                    <td className='text-center w-2 caret-amber-600 text-neutral-400'>
                         <p>{index + 1}</p>
                     </td>
                     <td className='p-0'>
@@ -91,12 +92,12 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
                     <td scope='col' className='w-32'>
                         <button
                             onClick={() => removeLine(id)}
-                            className='btn'>Delete</button>
+                            className='btn btn-ghost'>Delete</button>
                     </td>
                 </tr>
-            ) : lineIds && lineIds.length == 0 ? 
-            null :
-             <tr><td className='h-screen flex justify-center items-center'><span className="loading loading-dots loading-xl"></span></td></tr>}
+            ) : lineIds && lineIds.length == 0 ?
+                null :
+                <tr><td className='h-screen flex justify-center items-center'><span className="loading loading-dots loading-xl"></span></td></tr>}
             <tr className='p-0'>
                 <td colSpan={3}>
                     <button

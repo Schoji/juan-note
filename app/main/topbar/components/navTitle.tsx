@@ -1,7 +1,7 @@
 "use client";
 import { database } from '@/app/firebaseConfig';
 import { useNoteStore } from '@/app/core/global/useNoteStore';
-import { ref, set, update } from 'firebase/database';
+import { ref, update } from 'firebase/database';
 import { useEffect, useState } from 'react';
 
 const NavTitle = () => {
@@ -10,7 +10,7 @@ const NavTitle = () => {
   const [inputValue, setInputValue] = useState<string>(title != null ? title : "Unknown");
   useEffect(() => {
     setInputValue(title != null ? title : "Unknown");
-  }, [noteId])
+  }, [noteId, title])
 
   const changeTitle = () => {
     if (inputValue.length < 3) return
@@ -23,7 +23,7 @@ const NavTitle = () => {
       <div className='flex gap-1'>
         <input
           key={noteId}
-          className='!outline-none w-48'
+          className='!outline-none'
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
           minLength={3}

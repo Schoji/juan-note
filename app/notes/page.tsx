@@ -4,6 +4,7 @@ import Sidebar from '../main/sidebar/sidebar'
 import Notes from '../main/content/notes'
 import { AuthGuard } from '../core/auth/AuthGuard'
 import LoadingPage from '../loading/page'
+import Toolbar from '../main/toolbar/page'
 
 const Note = async ({ searchParams }: {
     searchParams: Promise<{
@@ -15,6 +16,7 @@ const Note = async ({ searchParams }: {
         <div>
 
             <Topbar />
+            <Toolbar/>
             <div className="flex">
                 <Sidebar />
                 <div className="flex-4/5 h-auto">

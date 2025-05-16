@@ -99,7 +99,7 @@ const Line = ({ id, noteId }: { id: string, noteId: string }) => {
     return (
         <textarea
             ref={textAreaRef}
-            className='w-full outline-none p-2 text-xl overflow-hidden resize-none'
+            className='w-full outline-none p-2 text-xl overflow-hidden resize-none border-l-2 border-gray-700'
             value={text}
             onChange={(e) => changeText(e)}
         />
