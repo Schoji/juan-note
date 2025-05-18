@@ -5,7 +5,7 @@ import { database } from '@/app/firebaseConfig';
 import { ref, onValue, push, remove } from "firebase/database";
 import { useNoteStore } from '@/app/core/global/useNoteStore';
 import { useRouter } from 'next/navigation';
-import NavTitle from '../topbar/components/navTitle';
+import NavTitle from './components/NoteTitle';
 
 interface Line {
     id: string
@@ -23,8 +23,8 @@ interface Note {
 const Notes = ({ idNote = "error" }: { idNote?: string }) => {
     const router = useRouter()
 
-    const { noteId, setNoteId } = useNoteStore();
-    const { title, setNoteTitle } = useNoteStore();
+    const { setNoteId } = useNoteStore();
+    const { setNoteTitle } = useNoteStore();
 
     const [lineIds, setLineIds] = React.useState<Array<string>>([]);
 
@@ -92,7 +92,7 @@ const Notes = ({ idNote = "error" }: { idNote?: string }) => {
                     <td scope='col' className='w-32'>
                         <button
                             onClick={() => removeLine(id)}
-                            className='btn btn-ghost'>Delete</button>
+                            className='btn btn-ghost btn-secondary'>Delete</button>
                     </td>
                 </tr>
             ) : lineIds && lineIds.length == 0 ?

@@ -16,11 +16,11 @@ const Note = async ({ searchParams }: {
         <div>
 
             <Topbar />
-            <Toolbar/>
             <div className="flex">
                 <Sidebar />
                 <div className="flex-4/5 h-auto">
                     <Suspense fallback={LoadingPage()}>
+                    <Toolbar/>
                         <table className='table table-auto scroll-auto' key={"table"}>
                             <tbody>
                                 <Notes idNote={note_id} />

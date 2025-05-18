@@ -4,9 +4,9 @@ import { useNoteStore } from '@/app/core/global/useNoteStore';
 import { ref, update } from 'firebase/database';
 import { useEffect, useState } from 'react';
 
-const NavTitle = () => {
-  const { title, setNoteTitle } = useNoteStore();
-  const { noteId, setNoteId } = useNoteStore();
+const NoteTitle = () => {
+  const { title } = useNoteStore();
+  const { noteId } = useNoteStore();
   const [inputValue, setInputValue] = useState<string>(title != null ? title : "Unknown");
   useEffect(() => {
     setInputValue(title != null ? title : "Unknown");
@@ -27,7 +27,7 @@ const NavTitle = () => {
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
           minLength={3}
-          maxLength={20}
+          maxLength={21}
         />
         <button className={inputValue == title ? "btn invisible" : "btn visible"} onClick={() => changeTitle()}>Save</button>
       </div>
@@ -42,4 +42,4 @@ const NavTitle = () => {
   }
 }
 
-export default NavTitle
+export default NoteTitle
