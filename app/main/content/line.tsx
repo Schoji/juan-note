@@ -2,13 +2,13 @@
 import { database } from '@/app/firebaseConfig';
 import { onValue, ref, set } from 'firebase/database';
 import React, { useEffect, useState } from 'react'
-import LineEditor from './components/LineEditor';
 import { useSyncStore } from '@/app/core/global/useSyncStore';
+import LineEditor from './components/LineEditor';
 
 const Line = ({ id, noteId }: { id: string, noteId: string }) => {
 
     const [text, setText] = useState<string>("Nothing");
-    const lineRef = ref(database, `notes/${noteId}/lines/${id}`);
+    
     const { setSyncStatus } = useSyncStore();
     // const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -33,7 +33,8 @@ const Line = ({ id, noteId }: { id: string, noteId: string }) => {
     }, [text])
 
     const updateLine = () => {
-        set(ref(database, `notes/${noteId}/lines/${id}`), {
+        const lineRef = ref(database, `notes/${noteId}/lines/${id}`);
+        set(lineRef, {
             "content": latestText.current
         });
     }
@@ -79,6 +80,7 @@ const Line = ({ id, noteId }: { id: string, noteId: string }) => {
     }
 
     useEffect(() => {
+        const lineRef = ref(database, `notes/${noteId}/lines/${id}`);
         const unsubscribe = onValue(lineRef, (snapshot) => {
             const data = snapshot.val();
             if (data != null) {

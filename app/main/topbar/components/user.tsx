@@ -9,7 +9,7 @@ const UserSection = () => {
         return (
             <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost h-auto p-2">
-                    <div className='flex items-center gap-2'>
+                    <div className='flex items-center gap-3'>
                         <div className='avatar'>
                             <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
                                 <img src={user!.photoURL || '/placeholder-image.png'} />
@@ -21,7 +21,7 @@ const UserSection = () => {
                         </div>
                     </div>
                 </div>
-                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-3 shadow-sm">
                     <LogoutButton/>
                 </ul>
             </div>

@@ -8,6 +8,7 @@ const Toolbar = () => {
   const { currentEditor } = useEditorStore();
   return (
     <div className='flex gap-2 items-center p-2 pl-5 border-b-1 border-neutral-800'>
+      <div className="divider divider-horizontal -m-2 p-3"></div>
       <div className="dropdown dropdown-start">
         <div tabIndex={0} role="button" className="btn m-1 btn-ghost">Paragraph</div>
         <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
@@ -105,7 +106,9 @@ const Toolbar = () => {
           <Icons.TableIcon />
         </button>
       </div>
-      <ColorSelection />
+      <div className="tooltip" data-tip="Color">
+        <ColorSelection />
+      </div>
     </div>
   );
 };

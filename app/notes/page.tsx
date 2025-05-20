@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react'
 import Topbar from '../main/topbar/topbar'
 import Sidebar from '../main/sidebar/sidebar'
-import Notes from '../main/content/notes'
 import { AuthGuard } from '../core/auth/AuthGuard'
 import LoadingPage from '../loading/page'
 import Toolbar from '../main/toolbar/page'
+import Notes from '../main/content/notes';
+import NoteTitle from '../main/content/components/NoteTitle';
 
 const Note = async ({ searchParams }: {
     searchParams: Promise<{
@@ -23,6 +24,7 @@ const Note = async ({ searchParams }: {
                     <Toolbar/>
                         <table className='table table-auto scroll-auto' key={"table"}>
                             <tbody>
+                                <tr><td colSpan={3} className='text-2xl font-bold'><NoteTitle /></td></tr>
                                 <Notes idNote={note_id} />
                             </tbody>
                         </table>

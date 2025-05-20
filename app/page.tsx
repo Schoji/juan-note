@@ -1,6 +1,3 @@
-import Topbar from "./main/topbar/topbar";
-import Sidebar from "./main/sidebar/sidebar";
-import Notes from "./main/content/notes";
 import React from "react";
 import { AuthGuard } from "./core/auth/AuthGuard";
 import { AlreadyLogged } from "./login/components/alreadyLogged";

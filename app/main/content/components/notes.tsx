@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from 'react';
-import Line from './line';
+import Line from '../../main/content/line';
 import { database } from '@/app/firebaseConfig';
 import { ref, onValue, push, remove } from "firebase/database";
 import { useNoteStore } from '@/app/core/global/useNoteStore';
