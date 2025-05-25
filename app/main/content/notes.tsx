@@ -4,7 +4,8 @@ import Line from './line';
 import { database } from '@/app/firebaseConfig';
 import { ref, onValue, push, remove } from "firebase/database";
 import { useNoteStore } from '@/app/core/global/useNoteStore';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/core/auth/AuthContext';
+import { fetchFirstNote } from './logic/getFirstNote';
 
 interface Line {
     id: string;
@@ -19,99 +20,104 @@ interface Note {
 }
 
 
-const Notes = ({ idNote = "error" }: { idNote?: string; }) => {
-    const router = useRouter();
+const Notes = () => {
+    const { user } = useAuth();
+    const [lineIds, setLineIds] = React.useState<Array<string> | null>(null);
+    const [noNotes, setNoNotes] = React.useState<boolean>(false);
 
-    const { setNoteId } = useNoteStore();
-    const { setNoteTitle } = useNoteStore();
-
-    const [lineIds, setLineIds] = React.useState<Array<string>>([]);
-
+    const { selectedNotes, setNoteTitle } = useNoteStore();
+    const idNote = user ? selectedNotes[user.uid] : null;
 
     useEffect(() => {
-        const noteRef = ref(database, `notes/${idNote}`);
+        if (!user) return;
 
-        // If there the id does not exist, load the first note there is
-        // on the database.
-        if (idNote == "error") {
-            onValue(ref(database, `notes/`), (snapshot) => {
-                const data = snapshot.val();
-                if (data != null) {
-                    const firstNote = Object.keys(data)[0];
-                    router.replace(`/notes?note_id=${firstNote}`);
+        const load = async () => {
+            if (!idNote) {
+                console.log("XD")
+                const found = await fetchFirstNote(user, null);
+                if (!found) {
+                    setNoNotes(true);
+                    setNoteTitle(user.uid, "");
                 }
-                else {
-                    //TODO: 
-                    console.log("No note detected, shit");
-                }
+            }
+        };
 
-            });
-        }
+        load();
+    }, [user]);
 
+    useEffect(() => {
+        if (!user || !idNote) return;
+
+        const noteRef = ref(database, `users/${user.uid}/notes/${idNote}`);
         const unsubscribe = onValue(noteRef, (snapshot) => {
             const note: Note = snapshot.val();
-            if (note != null) {
-                console.log(note);
-                setNoteId(idNote);
-                setNoteTitle(note.title);
-                if (note.lines != null) {
-                    setLineIds(Object.keys(note.lines));
-                }
-                else {
-                    setLineIds([]);
-                }
-
+            if (note?.lines) {
+                setLineIds(Object.keys(note.lines));
+                setNoNotes(false);
+            } else {
+                setLineIds([]);
             }
         });
+
         return () => unsubscribe();
-    }, [idNote]);
+    }, [user, idNote]);
 
     const addNewLine = () => {
-        push(ref(database, `notes/${idNote}/lines/`), {
+        if (!user) return;
+        push(ref(database, `users/${user.uid}/notes/${idNote}/lines/`), {
             "content": ""
         });
         console.log("Added new line");
     };
 
     const removeLine = (idLine: string) => {
-        remove(ref(database, `notes/${idNote}/lines/${idLine}`));
+        if (!user) return;
+        remove(ref(database, `users/${user.uid}/notes/${idNote}/lines/${idLine}`));
     };
 
     const showMenu = (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
         e.preventDefault();
-        console.log("menu")
+        console.log("menu");
 
+    };
+
+    if (noNotes) {
+        return <tr><td>You have no notes</td></tr>;
     }
 
-    return (
-        <>
-            <tr className='menu absolute'><td>XD</td></tr>           
-            {lineIds && lineIds.length > 0 ? lineIds.map((id, index) =>
-                <tr key={id} className='p-0' onContextMenu={(e) => showMenu(e)}>
-                    <td className='text-center w-2 caret-amber-600 text-neutral-400'>
-                        <p>{index + 1}</p>
-                    </td>
-                    <td className='p-0'>
-                        <Line id={id} noteId={idNote} />
-                    </td>
-                    <td scope='col' className='w-32'>
+    if (!user || idNote === null || lineIds === null) {
+        return <tr><td className='h-screen flex justify-center items-center'><span className="loading loading-dots loading-xl"></span></td></tr>;
+    }
+
+    else {
+        return (
+            <>
+                <tr className='menu absolute'><td></td></tr>
+                {lineIds.map((id, index) =>
+                    <tr key={id} className='p-0' onContextMenu={(e) => showMenu(e)}>
+                        <td className='text-center w-2 caret-amber-600 text-neutral-400'>
+                            <p>{index + 1}</p>
+                        </td>
+                        <td className='p-0'>
+                            <Line user={user!} id={id} noteId={idNote} />
+                        </td>
+                        <td scope='col' className='w-32'>
+                            <button
+                                onClick={() => removeLine(id)}
+                                className='btn btn-ghost btn-secondary'>Delete</button>
+                        </td>
+                    </tr>
+                )}
+                <tr className='p-0'>
+                    <td colSpan={3}>
                         <button
-                            onClick={() => removeLine(id)}
-                            className='btn btn-ghost btn-secondary'>Delete</button>
+                            onClick={() => addNewLine()}
+                            className='w-full h-full outline-none text-3xl text-left flex-grow btn btn-ghost btn-square rounded-none font-normal'>+</button>
                     </td>
                 </tr>
-            ) : lineIds && lineIds.length == 0 ?
-                null :
-                <tr><td className='h-screen flex justify-center items-center'><span className="loading loading-dots loading-xl"></span></td></tr>}
-            <tr className='p-0'>
-                <td colSpan={3}>
-                    <button
-                        onClick={() => addNewLine()}
-                        className='w-full h-full outline-none text-3xl text-left flex-grow btn btn-ghost btn-square rounded-none font-normal'>+</button>
-                </td>
-            </tr>
-        </>
-    );
+            </>
+        );
+    }
 };
 
 export default Notes;

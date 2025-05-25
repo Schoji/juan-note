@@ -1,7 +1,8 @@
 interface Notes {
-    id: number
+    id: string
     title: string
-    lines: Array<Lines>
+    lines: Array<Lines> | null
+    position: number
 }
 
 interface Lines {

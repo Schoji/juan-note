@@ -21,8 +21,6 @@ interface Note {
 
 const Notes = ({ idNote = "error" }: { idNote?: string; }) => {
     const router = useRouter();
-
-    const { setNoteId } = useNoteStore();
     const { setNoteTitle } = useNoteStore();
 
     const [lineIds, setLineIds] = React.useState<Array<string>>([]);
@@ -31,22 +29,22 @@ const Notes = ({ idNote = "error" }: { idNote?: string; }) => {
     useEffect(() => {
         const noteRef = ref(database, `notes/${idNote}`);
 
-        // If there the id does not exist, load the first note there is
-        // on the database.
-        if (idNote == "error") {
-            onValue(ref(database, `notes/`), (snapshot) => {
-                const data = snapshot.val();
-                if (data != null) {
-                    const firstNote = Object.keys(data)[0];
-                    router.replace(`/notes?note_id=${firstNote}`);
-                }
-                else {
-                    //TODO: 
-                    console.log("No note detected, shit");
-                }
+        // // If there the id does not exist, load the first note there is
+        // // on the database.
+        // if (idNote == "error") {
+        //     onValue(ref(database, `notes/`), (snapshot) => {
+        //         const data = snapshot.val();
+        //         if (data != null) {
+        //             const firstNote = Object.keys(data)[0];
+        //             router.replace(`/notes?note_id=${firstNote}`);
+        //         }
+        //         else {
+        //             //TODO: 
+        //             console.log("No note detected, shit");
+        //         }
 
-            });
-        }
+        //     });
+        // }
 
         const unsubscribe = onValue(noteRef, (snapshot) => {
             const note: Note = snapshot.val();

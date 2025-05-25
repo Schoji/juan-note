@@ -1,22 +1,26 @@
-import { database } from '@/app/firebaseConfig';
-import { ref, remove } from 'firebase/database';
-import Link from 'next/link'
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/core/auth/AuthContext';
+import { useNoteStore } from '@/app/core/global/useNoteStore';
 import React, { useState } from 'react'
+import { removeNote } from '../logic/removeNote';
 
 const NoteLink = ({ note_id, note_title }: { note_id: string, note_title: string }) => {
   const [hovered, setHovered] = useState(false);
-  const router = useRouter();
+  const { setSelectedNote, setNoteTitle } = useNoteStore();
 
-  const removeNote = (id: string) => {
-    remove(ref(database, `notes/${id}`))
+  const { user } = useAuth();
+
+  const changeNote = () => {
+    if (user) {
+      setSelectedNote(user.uid, note_id)
+      setNoteTitle(user.uid, note_title)
+    }
   }
   return (
     <div
       className='w-full flex justify-center gap-1 items-center p-3 hover:cursor-pointer'
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={() => router.push(`/notes?note_id=${note_id}`)}
+      onClick={() => changeNote()}
     >
       <div className='flex-[0_0_24px]'>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 text-gray-400">
@@ -30,7 +34,7 @@ const NoteLink = ({ note_id, note_title }: { note_id: string, note_title: string
       </div>
       <button
         className={hovered ? 'btn btn-circle btn-ghost btn-xs btn-secondary flex-initial grow-0 visible' : 'btn btn-circle btn-ghost btn-xs btn-secondary flex-initial grow-0 invisible'}
-        onClick={() => removeNote(note_id)}
+        onClick={() => removeNote(user!, note_id)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

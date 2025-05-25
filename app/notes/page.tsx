@@ -7,15 +7,9 @@ import Toolbar from '../main/toolbar/page'
 import Notes from '../main/content/notes';
 import NoteTitle from '../main/content/components/NoteTitle';
 
-const Note = async ({ searchParams }: {
-    searchParams: Promise<{
-        note_id: string
-    }>
-}) => {
-    const { note_id } = await searchParams;
+const Note = () => {
     return (
         <div>
-
             <Topbar />
             <div className="flex">
                 <Sidebar />
@@ -25,7 +19,7 @@ const Note = async ({ searchParams }: {
                         <table className='table table-auto scroll-auto' key={"table"}>
                             <tbody>
                                 <tr><td colSpan={3} className='text-2xl font-bold'><NoteTitle /></td></tr>
-                                <Notes idNote={note_id} />
+                                <Notes/>
                             </tbody>
                         </table>
                         <AuthGuard />
